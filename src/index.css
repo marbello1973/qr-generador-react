@@ -1,0 +1,14 @@
+body {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  background: hsl(0, 0%, 100%);   
+  display: flex;
+  justify-content: center;
+  align-items: center;  
+  height: 100vh;
+  font-family: "Outfit", serif;
+  font-optical-sizing: auto; 
+  
+}
+ 
