@@ -20,11 +20,11 @@ jobs:
           cache: 'npm'
 
       - name: 📦 Instalar dependencias
-        working-directory: frontend
+        working-directory: dist
         run: npm install
 
       - name: 🔨 Construir aplicación
-        working-directory: frontend
+        working-directory: dist
         run: npm run build
 
       - name: 🚀 Desplegar en GitHub Pages
