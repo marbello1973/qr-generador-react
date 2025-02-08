@@ -20,7 +20,7 @@ jobs:
       - name: 🔧 Configurar Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: 20
+          node-version: 20.x
           cache: 'npm'
 
       - name: 📦 Instalar dependencias
@@ -28,11 +28,14 @@ jobs:
 
       - name: 🔨 Construir aplicación
         run: npm run build
+      
+      - name: Move index.html to 404.html
+        run: mv dist/index.html dist/404.html
 
       - name: 🚀 Desplegar en GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}  # Usa el token automático de GitHub
+          github_token: ${{ secrets.GITHUB_TOKEN }}  
           branch: gh-pages
           folder: dist
           #publish_branch: gh-pages
