@@ -1,31 +1,12 @@
 import QRCode from 'react-qr-code';
-//import imagen from '../../../assets/images/image-qr-code.png';
 import styles from './QRImagen.module.css';
 import { useRef, useState } from 'react';
-import domtoimage from 'dom-to-image';
-
+import { ButtonQR } from '../buttonqr/ButtonQR';
 
 export const QRImagen = () => {
   
   const qrCodeRef = useRef<HTMLDivElement>(null);
   const [text, setText] = useState<string | undefined>('');
-  
-  const downloadQR = () => {
-    if (qrCodeRef.current) {      
-      domtoimage.toPng(qrCodeRef.current)
-        .then((dataUrl: string) => {
-          const downloadLink = document.createElement('a');
-          downloadLink.href = dataUrl;
-          downloadLink.download = 'qrCode.png';
-          document.body.appendChild(downloadLink);
-          downloadLink.click();
-          document.body.removeChild(downloadLink);
-        })
-        .catch((error: Error) => {
-          console.error('Error al generar la imagen:', error);
-        });
-    }
-  };  
 
   return (    
     <div className={styles.container}>      
@@ -46,13 +27,10 @@ export const QRImagen = () => {
                 level='H'
                 className={styles.qrimagen}
                 />
-              </div>
-            <button onClick={downloadQR} className={styles.botonQR} >
-              <p>Descargar QR</p>
-            </button>
+            </div>
+            <ButtonQR qrCodeRef={qrCodeRef} />            
           </>
-        )}
-      {/* <img className={styles.imagen} src={imagen} alt='QR'/>    */}
+        )}      
     </div>
   )
 }
