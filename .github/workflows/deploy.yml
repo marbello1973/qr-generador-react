@@ -1,25 +1,34 @@
-name: Deploy
+name: Deploy Frontend to GitHub Pages
 
 on: 
-    push: 
-        branches: 
-            - master
+  push: 
+    branches: 
+      - main
+
 jobs: 
-    deploy: 
-        runs-on: ubuntu-latest
-        steps: 
-            - name: Checkout
-              uses: actions/checkout@v4
-            - name: Setup Node.js
-              uses: actions/setup-node@v1
-              with: 
-                  node-version: 22
-            - name: Install dependencies
-              run: npm install
-            - name: Build
-              run: npm run build
-            - name: Deploy
-              uses: peaceiris/actions-gh-pages@v3
-              with: 
-                  bracnh: gh-pages
-                  publish_dir: ./dist
+  deploy: 
+    runs-on: ubuntu-latest
+
+    steps: 
+      - name: 🛎️ Checkout código
+        uses: actions/checkout@v4
+
+      - name: 🔧 Configurar Node.js
+        uses: actions/setup-node@v3
+        with: 
+          node-version: 20
+          cache: 'npm'
+
+      - name: 📦 Instalar dependencias
+        working-directory: frontend
+        run: npm install
+
+      - name: 🔨 Construir aplicación
+        working-directory: frontend
+        run: npm run build
+
+      - name: 🚀 Desplegar en GitHub Pages
+        uses: peaceiris/actions-gh-pages@v3
+        with: 
+          publish_branch: gh-pages
+          publish_dir: frontend/dist
