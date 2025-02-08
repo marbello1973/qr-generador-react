@@ -20,8 +20,10 @@
 }
 
 .qrimagen {
-    width: 90%;
-    height: 90%;    
+    width: 95%;
+    display: flex;
+    align-items: center;
+    justify-content: center;       
     border-radius: 6px;    
 }
 
@@ -36,8 +38,18 @@
     background-color: #505050;
     color: white;
     cursor: pointer;
+    display: flex; 
+    justify-content: center; 
+    align-items: center; 
+}
+
+.botonQR p {
+    margin: 0;
+    font-size: 1.1em;
+    font-weight: bold;
 }
 
 .botonQR:hover {
+    transition: 0.3s;
     background-color: #404040;
 }

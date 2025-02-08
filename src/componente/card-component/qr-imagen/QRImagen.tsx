@@ -1,24 +1,32 @@
 import QRCode from 'react-qr-code';
 //import imagen from '../../../assets/images/image-qr-code.png';
 import styles from './QRImagen.module.css';
-import { useState } from 'react';
-//import { downloadQR }  from './QRDownload';
+import { useRef, useState } from 'react';
+import domtoimage from 'dom-to-image';
 
-const downloadQR = () => {
-  const canvas = document.getElementById('qrCodeEl') as HTMLCanvasElement;
-  const pngUrl = canvas.toDataURL('image/png');
-  const downloadLink = document.createElement('a');
-  downloadLink.href = pngUrl;
-  downloadLink.download = 'qrCode.png';
-  document.body.appendChild(downloadLink);
-  downloadLink.click();
-  document.body.removeChild(downloadLink);
-};
 
 export const QRImagen = () => {
-
+  
+  const qrCodeRef = useRef<HTMLDivElement>(null);
   const [text, setText] = useState<string | undefined>('');
   
+  const downloadQR = () => {
+    if (qrCodeRef.current) {      
+      domtoimage.toPng(qrCodeRef.current)
+        .then((dataUrl: string) => {
+          const downloadLink = document.createElement('a');
+          downloadLink.href = dataUrl;
+          downloadLink.download = 'qrCode.png';
+          document.body.appendChild(downloadLink);
+          downloadLink.click();
+          document.body.removeChild(downloadLink);
+        })
+        .catch((error: Error) => {
+          console.error('Error al generar la imagen:', error);
+        });
+    }
+  };  
+
   return (    
     <div className={styles.container}>      
       <input 
@@ -30,15 +38,17 @@ export const QRImagen = () => {
       />
         { text && (
           <>
-            <QRCode
-              id='qrCodeEl'
-              value={text}
-              size={256}
-              level='H'
-              className={styles.qrimagen}
-              />
+            <div ref={qrCodeRef} className={styles.qrimagen}>
+              <QRCode
+                id='qrCodeEl'
+                value={text}
+                size={256}
+                level='H'
+                className={styles.qrimagen}
+                />
+              </div>
             <button onClick={downloadQR} className={styles.botonQR} >
-              Descargar QR
+              <p>Descargar QR</p>
             </button>
           </>
         )}
